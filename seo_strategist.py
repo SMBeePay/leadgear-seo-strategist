@@ -446,15 +446,17 @@ class EnhancedSEOStrategist:
                     "task": "Develop comprehensive content strategy with keyword mapping",
                     "type": "content",
                     "priority": "important",
-                    "estimated_hours": 8,
-                    "deadline": "Month 3"
+                    "estimated_hours": 5.6,  # Reduced by 30%
+                    "deadline": "Month 3",
+                    "recurring": False
                 },
                 {
                     "task": "Implement advanced schema markup for key pages",
                     "type": "technical", 
                     "priority": "important",
-                    "estimated_hours": 12,
-                    "deadline": "Month 4"
+                    "estimated_hours": 8.4,  # Reduced by 30%
+                    "deadline": "Month 4",
+                    "recurring": False
                 }
             ])
         
@@ -464,42 +466,134 @@ class EnhancedSEOStrategist:
                     "task": "Set up conversion rate optimization tests",
                     "type": "cro",
                     "priority": "important", 
-                    "estimated_hours": 15,
-                    "deadline": "Month 3"
+                    "estimated_hours": 10.5,  # Reduced by 30%
+                    "deadline": "Month 3",
+                    "recurring": False
                 },
                 {
                     "task": "Develop AI-optimized content for voice search",
                     "type": "content",
                     "priority": "important",
-                    "estimated_hours": 20,
-                    "deadline": "Month 6"
+                    "estimated_hours": 14,  # Reduced by 30%
+                    "deadline": "Month 6",
+                    "recurring": False
                 }
             ])
         
-        # Ongoing monthly tasks
-        tasks["ongoing"] = [
-            {
-                "task": "Monthly technical SEO monitoring and fixes",
-                "type": "technical",
-                "priority": "ongoing",
-                "estimated_hours": 4,
-                "frequency": "monthly"
-            },
-            {
-                "task": "Performance reporting and client updates",
-                "type": "reporting",
-                "priority": "ongoing", 
-                "estimated_hours": 3,
-                "frequency": "monthly"
-            },
-            {
-                "task": "Keyword ranking monitoring and optimization",
-                "type": "monitoring",
-                "priority": "ongoing",
-                "estimated_hours": 2,
-                "frequency": "monthly"
-            }
-        ]
+        # Tier-specific ongoing tasks with appropriate frequencies
+        if tier_config["name"] == "Starter":
+            tasks["ongoing"] = [
+                {
+                    "task": "Basic technical SEO monitoring and critical fixes only",
+                    "type": "technical",
+                    "priority": "ongoing",
+                    "estimated_hours": 2.8,  # Reduced by 30%
+                    "frequency": "quarterly",
+                    "recurring": True
+                },
+                {
+                    "task": "Performance reporting and client updates",
+                    "type": "reporting",
+                    "priority": "ongoing", 
+                    "estimated_hours": 2.1,  # Reduced by 30%
+                    "frequency": "quarterly",
+                    "recurring": True
+                },
+                {
+                    "task": "Keyword ranking review and basic adjustments",
+                    "type": "monitoring",
+                    "priority": "ongoing",
+                    "estimated_hours": 1.4,  # Reduced by 30%
+                    "frequency": "bi-annually",
+                    "recurring": True
+                }
+            ]
+        elif tier_config["name"] == "Business":
+            tasks["ongoing"] = [
+                {
+                    "task": "Technical SEO monitoring and fixes",
+                    "type": "technical",
+                    "priority": "ongoing",
+                    "estimated_hours": 3.5,  # Reduced by 30%
+                    "frequency": "monthly",
+                    "recurring": True
+                },
+                {
+                    "task": "Performance reporting and strategic updates",
+                    "type": "reporting",
+                    "priority": "ongoing", 
+                    "estimated_hours": 2.8,  # Reduced by 30%
+                    "frequency": "monthly",
+                    "recurring": True
+                },
+                {
+                    "task": "Keyword ranking monitoring and content optimization",
+                    "type": "monitoring",
+                    "priority": "ongoing",
+                    "estimated_hours": 2.1,  # Reduced by 30%
+                    "frequency": "monthly",
+                    "recurring": True
+                },
+                {
+                    "task": "Content strategy review and planning",
+                    "type": "content",
+                    "priority": "ongoing",
+                    "estimated_hours": 2.8,  # Reduced by 30%
+                    "frequency": "quarterly",
+                    "recurring": True
+                }
+            ]
+        else:  # Pro
+            tasks["ongoing"] = [
+                {
+                    "task": "Advanced technical SEO monitoring and optimization",
+                    "type": "technical",
+                    "priority": "ongoing",
+                    "estimated_hours": 4.2,  # Reduced by 30%
+                    "frequency": "monthly",
+                    "recurring": True
+                },
+                {
+                    "task": "Comprehensive performance reporting and strategic analysis",
+                    "type": "reporting",
+                    "priority": "ongoing", 
+                    "estimated_hours": 3.5,  # Reduced by 30%
+                    "frequency": "monthly",
+                    "recurring": True
+                },
+                {
+                    "task": "Page ranking movement analysis and content optimization",
+                    "type": "content",
+                    "priority": "ongoing",
+                    "estimated_hours": 3.5,  # Reduced by 30%
+                    "frequency": "monthly",
+                    "recurring": True
+                },
+                {
+                    "task": "Conversion rate optimization monitoring and adjustments",
+                    "type": "cro",
+                    "priority": "ongoing",
+                    "estimated_hours": 2.8,  # Reduced by 30%
+                    "frequency": "monthly",
+                    "recurring": True
+                },
+                {
+                    "task": "Advanced content strategy and AI optimization",
+                    "type": "content",
+                    "priority": "ongoing",
+                    "estimated_hours": 4.2,  # Reduced by 30%
+                    "frequency": "monthly",
+                    "recurring": True
+                },
+                {
+                    "task": "Competitive analysis and strategic pivots",
+                    "type": "strategy",
+                    "priority": "ongoing",
+                    "estimated_hours": 3.5,  # Reduced by 30%
+                    "frequency": "quarterly",
+                    "recurring": True
+                }
+            ]
         
         return tasks
     
@@ -707,7 +801,7 @@ def main():
     parser = argparse.ArgumentParser(description="Enhanced Lead Gear SEO Strategist with DataForSEO Integration")
     parser.add_argument("url", help="Website URL to analyze")
     parser.add_argument("--tier", choices=["starter", "business", "pro"], 
-                       help="Service tier (if not specified, will be recommended based on audit)")
+                       help="Force specific service tier (overrides audit-based recommendation)")
     parser.add_argument("--dataforseo-username", help="DataForSEO API username")
     parser.add_argument("--dataforseo-password", help="DataForSEO API password")
     parser.add_argument("--output", help="Output filename for the plan")
@@ -734,14 +828,19 @@ def main():
     print(f"  Estimated Fix Hours: {audit_results.get('estimated_fix_hours', 0):.1f}")
     
     # Determine tier
-    recommended_tier = audit_data.get('recommended_tier', 'business')
-    final_tier = args.tier or recommended_tier
+    audit_recommended_tier = audit_data.get('recommended_tier', 'business')
     
-    print(f"\nRecommended tier based on audit: {recommended_tier.upper()}")
-    if args.tier and args.tier != recommended_tier:
+    if args.tier:
+        final_tier = args.tier
+        print(f"\nAudit recommended: {audit_recommended_tier.upper()}")
         print(f"Using specified tier: {final_tier.upper()}")
+        if final_tier != audit_recommended_tier:
+            tier_config = strategist.service_tiers[final_tier]
+            audit_tier_config = strategist.service_tiers[audit_recommended_tier]
+            print(f"Note: Specified tier may be {'under' if tier_config['base_monthly_hours'] < audit_tier_config['base_monthly_hours'] else 'over'}-resourced for this website's needs")
     else:
-        print(f"Using recommended tier: {final_tier.upper()}")
+        final_tier = audit_recommended_tier
+        print(f"\nUsing audit-recommended tier: {final_tier.upper()}")
     
     # Generate data-driven plan
     print(f"\nGenerating data-driven 12-month SEO plan...")
@@ -766,7 +865,15 @@ def main():
     print(f"\nIMMEDIATE PRIORITY TASKS:")
     immediate_tasks = plan.get('audit_based_tasks', {}).get('immediate_fixes', [])
     for i, task in enumerate(immediate_tasks[:5], 1):
-        print(f"  {i}. {task['task']} ({task['estimated_hours']}h)")
+        recurring_info = f" (Recurring: {task.get('frequency', 'N/A')})" if task.get('recurring') else ""
+        print(f"  {i}. {task['task']} ({task['estimated_hours']:.1f}h){recurring_info}")
+    
+    print(f"\nRECURRING TASKS BY TIER:")
+    ongoing_tasks = plan.get('audit_based_tasks', {}).get('ongoing', [])
+    for task in ongoing_tasks:
+        frequency = task.get('frequency', 'unknown')
+        hours = task.get('estimated_hours', 0)
+        print(f"  • {task['task']}: {hours:.1f}h {frequency}")
     
     print(f"\nAUTOMATION OPPORTUNITIES:")
     for opp in plan['automation_opportunities'][:3]:
@@ -787,3 +894,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
