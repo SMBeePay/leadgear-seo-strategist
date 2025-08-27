@@ -198,7 +198,7 @@ EOF
 }
 
 create_uninstaller() {
-    cat > "$INSTALL_DIR/uninstall.sh" << 'EOF'
+    cat > "$INSTALL_DIR Uninstall.sh" << 'EOF'
 #!/bin/bash
 echo "🗑️  Uninstalling Lead Gear SEO Strategist..."
 rm -rf "$HOME/.leadgear-seo"
