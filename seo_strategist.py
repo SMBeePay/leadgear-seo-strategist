@@ -10,7 +10,6 @@ import sys
 import argparse
 from typing import Dict, List, Any
 from datetime import datetime, timedelta
-import requests
 from urllib.parse import urlparse
 
 # Service Tier Configurations
