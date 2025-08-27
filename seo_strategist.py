@@ -234,8 +234,9 @@ class EnhancedSEOStrategist:
                     'issue': 'Missing Title Tags',
                     'count': checks['no_title_tag'],
                     'priority': 'critical',
-                    'estimated_hours': checks['no_title_tag'] * 0.25,
-                    'task': f'Add unique, optimized title tags to {checks["no_title_tag"]} pages'
+                    'estimated_hours': checks['no_title_tag'] * 0.17,  # Reduced by 30%
+                    'task': f'Add unique, optimized title tags to {checks["no_title_tag"]} pages',
+                    'recurring': False
                 })
             
             if checks.get('duplicate_title_tag', 0) > 0:
@@ -244,8 +245,9 @@ class EnhancedSEOStrategist:
                     'issue': 'Duplicate Title Tags',
                     'count': checks['duplicate_title_tag'],
                     'priority': 'important', 
-                    'estimated_hours': checks['duplicate_title_tag'] * 0.3,
-                    'task': f'Rewrite {checks["duplicate_title_tag"]} duplicate title tags with unique, keyword-optimized versions'
+                    'estimated_hours': checks['duplicate_title_tag'] * 0.21,  # Reduced by 30%
+                    'task': f'Rewrite {checks["duplicate_title_tag"]} duplicate title tags with unique, keyword-optimized versions',
+                    'recurring': False
                 })
             
             if checks.get('no_meta_description', 0) > 0:
@@ -254,8 +256,9 @@ class EnhancedSEOStrategist:
                     'issue': 'Missing Meta Descriptions',
                     'count': checks['no_meta_description'],
                     'priority': 'important',
-                    'estimated_hours': checks['no_meta_description'] * 0.2,
-                    'task': f'Write compelling meta descriptions for {checks["no_meta_description"]} pages to improve CTR'
+                    'estimated_hours': checks['no_meta_description'] * 0.14,  # Reduced by 30%
+                    'task': f'Write compelling meta descriptions for {checks["no_meta_description"]} pages to improve CTR',
+                    'recurring': False
                 })
             
             if checks.get('no_h1_tag', 0) > 0:
@@ -264,8 +267,9 @@ class EnhancedSEOStrategist:
                     'issue': 'Missing H1 Tags',
                     'count': checks['no_h1_tag'],
                     'priority': 'critical',
-                    'estimated_hours': checks['no_h1_tag'] * 0.25,
-                    'task': f'Add keyword-optimized H1 tags to {checks["no_h1_tag"]} pages'
+                    'estimated_hours': checks['no_h1_tag'] * 0.17,  # Reduced by 30%
+                    'task': f'Add keyword-optimized H1 tags to {checks["no_h1_tag"]} pages',
+                    'recurring': False
                 })
             
             if checks.get('high_loading_time', 0) > 0:
@@ -274,8 +278,9 @@ class EnhancedSEOStrategist:
                     'issue': 'Slow Page Loading',
                     'count': checks['high_loading_time'],
                     'priority': 'critical',
-                    'estimated_hours': min(checks['high_loading_time'] * 0.5, 15),  # Cap at 15 hours
-                    'task': f'Optimize page speed for {checks["high_loading_time"]} slow-loading pages (image compression, caching, minification)'
+                    'estimated_hours': min(checks['high_loading_time'] * 0.35, 10.5),  # Reduced by 30%
+                    'task': f'Optimize page speed for {checks["high_loading_time"]} slow-loading pages (image compression, caching, minification)',
+                    'recurring': False
                 })
             
             if checks.get('no_image_alt', 0) > 0:
@@ -284,8 +289,9 @@ class EnhancedSEOStrategist:
                     'issue': 'Missing Alt Text',
                     'count': checks['no_image_alt'],
                     'priority': 'minor',
-                    'estimated_hours': min(checks['no_image_alt'] * 0.1, 8),  # Cap at 8 hours
-                    'task': f'Add descriptive alt text to {checks["no_image_alt"]} images for accessibility and SEO'
+                    'estimated_hours': min(checks['no_image_alt'] * 0.07, 5.6),  # Reduced by 30%
+                    'task': f'Add descriptive alt text to {checks["no_image_alt"]} images for accessibility and SEO',
+                    'recurring': False
                 })
             
             if checks.get('is_4xx_code', 0) > 0:
@@ -294,8 +300,9 @@ class EnhancedSEOStrategist:
                     'issue': '404 Errors',
                     'count': checks['is_4xx_code'],
                     'priority': 'important',
-                    'estimated_hours': checks['is_4xx_code'] * 0.5,
-                    'task': f'Fix or redirect {checks["is_4xx_code"]} broken pages causing 404 errors'
+                    'estimated_hours': checks['is_4xx_code'] * 0.35,  # Reduced by 30%
+                    'task': f'Fix or redirect {checks["is_4xx_code"]} broken pages causing 404 errors',
+                    'recurring': False
                 })
             
             if checks.get('low_content_rate', 0) > 0:
@@ -304,8 +311,9 @@ class EnhancedSEOStrategist:
                     'issue': 'Thin Content',
                     'count': checks['low_content_rate'],
                     'priority': 'important',
-                    'estimated_hours': checks['low_content_rate'] * 1.0,  # 1 hour per page for content expansion
-                    'task': f'Expand thin content on {checks["low_content_rate"]} pages with valuable, keyword-rich information'
+                    'estimated_hours': checks['low_content_rate'] * 0.7,  # Reduced by 30%
+                    'task': f'Expand thin content on {checks["low_content_rate"]} pages with valuable, keyword-rich information',
+                    'recurring': False
                 })
             
             all_issues = critical_issues + important_issues + minor_issues
