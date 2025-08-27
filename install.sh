@@ -1,6 +1,6 @@
 #!/bin/bash
-# Lead Gear SEO Strategist Installer - Fixed Version
-# Version: 2.1.0
+# Lead Gear SEO Strategist Installer - Complete Fixed Version
+# Version: 2.1.1
 
 set -e
 
@@ -9,7 +9,7 @@ RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
 # Configuration
 INSTALL_DIR="$HOME/.leadgear-seo"
@@ -61,31 +61,25 @@ create_install_dir() {
 download_files() {
     print_status "Downloading SEO Strategist files..."
     
-    # Download main script
     if curl -fsSL "$REPO_URL/seo_strategist.py" -o "$INSTALL_DIR/seo_strategist.py" 2>/dev/null; then
         print_status "✅ Downloaded main SEO strategist script"
     else
         print_error "Failed to download main script from GitHub"
-        print_status "Please ensure seo_strategist.py is uploaded to your repository"
         exit 1
     fi
     
-    # Make executable
     chmod +x "$INSTALL_DIR/seo_strategist.py"
-    
     print_status "✅ Downloaded and configured scripts"
 }
 
 setup_credentials() {
     print_status "Setting up DataForSEO credentials..."
     
-    # Check if credentials already exist
     if [ -n "$DATAFORSEO_USERNAME" ] && [ -n "$DATAFORSEO_PASSWORD" ]; then
         print_status "✅ DataForSEO credentials found in environment"
         return 0
     fi
     
-    # Detect shell
     SHELL_RC=""
     if [[ "$SHELL" == *"zsh"* ]]; then
         SHELL_RC="$HOME/.zshrc"
@@ -97,14 +91,13 @@ setup_credentials() {
     
     echo ""
     echo -e "${BLUE}DataForSEO API Setup (Optional)${NC}"
-    echo "For real SEO audit data, you can add DataForSEO API credentials."
+    echo "For real SEO audit data, add DataForSEO API credentials."
     echo "Sign up at: https://app.dataforseo.com/register"
     echo ""
-    echo "You can add credentials now or skip and add them later."
-    echo "Without credentials, the tool will use realistic demo data."
+    echo "Add credentials now or skip for demo mode."
     echo ""
     
-    read -p "Do you have DataForSEO credentials to add now? (y/N): " -n 1 -r
+    read -p "Add DataForSEO credentials now? (y/N): " -n 1 -r
     echo
     
     if [[ $REPLY =~ ^[Yy]$ ]]; then
@@ -113,30 +106,21 @@ setup_credentials() {
             read -s -p "DataForSEO Password: " dfso_password
             echo ""
             
-            # Add to shell profile
             echo "" >> "$SHELL_RC"
-            echo "# DataForSEO API Credentials for Lead Gear SEO Strategist" >> "$SHELL_RC"
+            echo "# DataForSEO API Credentials" >> "$SHELL_RC"
             echo "export DATAFORSEO_USERNAME=\"$dfso_username\"" >> "$SHELL_RC"
             echo "export DATAFORSEO_PASSWORD=\"$dfso_password\"" >> "$SHELL_RC"
             
-            print_status "✅ API credentials saved to $SHELL_RC"
-            print_warning "Run 'source $SHELL_RC' or restart terminal to activate"
+            print_status "✅ API credentials saved"
         fi
     else
-        print_status "Skipping API setup - will use demo mode"
-        echo ""
-        echo "To add credentials later, run:"
-        echo "  export DATAFORSEO_USERNAME=\"your_username\""
-        echo "  export DATAFORSEO_PASSWORD=\"your_password\""
-        echo "  echo 'export DATAFORSEO_USERNAME=\"your_username\"' >> $SHELL_RC"
-        echo "  echo 'export DATAFORSEO_PASSWORD=\"your_password\"' >> $SHELL_RC"
+        print_status "Skipping API setup - using demo mode"
     fi
 }
 
 setup_shell_integration() {
     print_status "Setting up shell integration..."
     
-    # Detect shell
     SHELL_RC=""
     if [[ "$SHELL" == *"zsh"* ]]; then
         SHELL_RC="$HOME/.zshrc"
@@ -146,112 +130,92 @@ setup_shell_integration() {
         SHELL_RC="$HOME/.profile"
     fi
     
-    # Backup existing shell config
     if [ -f "$SHELL_RC" ]; then
         cp "$SHELL_RC" "$SHELL_RC.backup.$(date +%Y%m%d_%H%M%S)"
         print_status "✅ Backed up existing $SHELL_RC"
     fi
     
-    # Add aliases and functions
-    cat >> "$SHELL_RC" << EOF
+    cat >> "$SHELL_RC" << 'EOF'
 
 # Lead Gear SEO Strategist Sub-Agent
-export PATH="\$HOME/.leadgear-seo:\$PATH"
+export PATH="$HOME/.leadgear-seo:$PATH"
 
 # Main SEO planning command
-alias seo-plan='python3 \$HOME/.leadgear-seo/seo_strategist.py'
+alias seo-plan='python3 $HOME/.leadgear-seo/seo_strategist.py'
 
 # Quick commands for each tier
 seo-starter() {
-    if [ -z "\$1" ]; then
+    if [ -z "$1" ]; then
         echo "Usage: seo-starter <url>"
         return 1
     fi
-    python3 \$HOME/.leadgear-seo/seo_strategist.py "\$1" --tier starter
+    python3 $HOME/.leadgear-seo/seo_strategist.py "$1" --tier starter
 }
 
 seo-business() {
-    if [ -z "\$1" ]; then
+    if [ -z "$1" ]; then
         echo "Usage: seo-business <url>"
         return 1
     fi
-    python3 \$HOME/.leadgear-seo/seo_strategist.py "\$1" --tier business
+    python3 $HOME/.leadgear-seo/seo_strategist.py "$1" --tier business
 }
 
 seo-pro() {
-    if [ -z "\$1" ]; then
+    if [ -z "$1" ]; then
         echo "Usage: seo-pro <url>"
         return 1
     fi
-    python3 \$HOME/.leadgear-seo/seo_strategist.py "\$1" --tier pro
+    python3 $HOME/.leadgear-seo/seo_strategist.py "$1" --tier pro
 }
 
 # Audit with ClickUp export
 seo-audit() {
-    if [ -z "\$1" ]; then
+    if [ -z "$1" ]; then
         echo "Usage: seo-audit <url>"
-        echo "Runs full audit and exports ClickUp CSV"
         return 1
     fi
-    python3 \$HOME/.leadgear-seo/seo_strategist.py "\$1" --clickup-csv
+    python3 $HOME/.leadgear-seo/seo_strategist.py "$1" --clickup-csv
 }
 
 # Status check
 seo-status() {
     echo "Lead Gear SEO Strategist Status:"
-    if [ -f "\$HOME/.leadgear-seo/seo_strategist.py" ]; then
+    if [ -f "$HOME/.leadgear-seo/seo_strategist.py" ]; then
         echo "✅ SEO Strategist installed"
     else
         echo "❌ SEO Strategist not found"
     fi
     
-    if [ -n "\$DATAFORSEO_USERNAME" ]; then
-        echo "✅ DataForSEO API credentials configured"
-        echo "Username: \$DATAFORSEO_USERNAME"
+    if [ -n "$DATAFORSEO_USERNAME" ]; then
+        echo "✅ DataForSEO API configured: $DATAFORSEO_USERNAME"
     else
-        echo "⚠️  DataForSEO API credentials not found"
-        echo "Using demo mode for audits"
+        echo "⚠️  Using demo mode (no API credentials)"
     fi
 }
-
 EOF
     
-    print_status "✅ Added shell integration to $SHELL_RC"
+    print_status "✅ Added shell integration"
 }
 
 create_uninstaller() {
     cat > "$INSTALL_DIR/uninstall.sh" << 'EOF'
 #!/bin/bash
-# Lead Gear SEO Strategist Uninstaller
-
 echo "🗑️  Uninstalling Lead Gear SEO Strategist..."
-
-# Remove installation directory
 rm -rf "$HOME/.leadgear-seo"
-
-echo "⚠️  Please manually remove the Lead Gear SEO section from your shell config:"
-if [[ "$SHELL" == *"zsh"* ]]; then
-    echo "   nano ~/.zshrc"
-elif [[ "$SHELL" == *"bash"* ]]; then
-    echo "   nano ~/.bashrc"
-else
-    echo "   nano ~/.profile"
-fi
-
+echo "⚠️  Manually remove Lead Gear SEO section from shell config"
 echo "✅ Uninstallation complete"
 EOF
-    chmod +x "$INSTALL_DIR/uninstaller.sh"
+    chmod +x "$INSTALL_DIR/uninstall.sh"
     print_status "✅ Created uninstaller"
 }
 
 test_installation() {
     print_status "Testing installation..."
     
-    # Test if script can run
     if python3 "$INSTALL_DIR/seo_strategist.py" --help &>/dev/null; then
         print_status "✅ Installation test passed"
     else
-        print_warning "Installation may need manual shell reload"
+        print_warning "Installation test failed - may need shell reload"
     fi
 }
 
@@ -263,15 +227,15 @@ print_success() {
     echo -e "${NC}"
     
     echo -e "${BLUE}📖 Available Commands:${NC}"
-    echo "   seo-plan <url> [options]     - Full SEO planning tool"
-    echo "   seo-starter <url>            - Generate Starter tier plan"
-    echo "   seo-business <url>           - Generate Business tier plan"
-    echo "   seo-pro <url>                - Generate Pro tier plan"
-    echo "   seo-audit <url>              - Full audit + ClickUp CSV export"
-    echo "   seo-status                   - Check installation & API status"
+    echo "   seo-plan <url>               - Full SEO planning tool"
+    echo "   seo-starter <url>            - Starter tier plan"
+    echo "   seo-business <url>           - Business tier plan"
+    echo "   seo-pro <url>                - Pro tier plan"
+    echo "   seo-audit <url>              - Audit + ClickUp CSV export"
+    echo "   seo-status                   - Check status"
     echo ""
     echo -e "${BLUE}🚀 Quick Start:${NC}"
-    echo "   # Reload your shell first:"
+    echo "   # Reload shell:"
     if [[ "$SHELL" == *"zsh"* ]]; then
         echo "   source ~/.zshrc"
     elif [[ "$SHELL" == *"bash"* ]]; then
@@ -279,3 +243,31 @@ print_success() {
     else
         echo "   source ~/.profile"
     fi
+    echo ""
+    echo "   # Test it:"
+    echo "   seo-business https://client.com"
+    echo ""
+    echo -e "${BLUE}🔑 Features:${NC}"
+    echo "   ✅ Tier specification with warnings"
+    echo "   ✅ 30% reduced hour estimates"
+    echo "   ✅ Proper recurring task frequencies"
+    echo "   ✅ ClickUp CSV export"
+    echo "   ✅ Real audit data (with API) or demo mode"
+    echo ""
+    echo -e "${YELLOW}🗑️  Uninstall:${NC} ~/.leadgear-seo/uninstall.sh"
+}
+
+# Main installation
+main() {
+    print_header
+    check_requirements
+    create_install_dir
+    download_files
+    setup_credentials
+    setup_shell_integration
+    create_uninstaller
+    test_installation
+    print_success
+}
+
+main "$@"
