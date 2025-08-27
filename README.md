@@ -6,14 +6,14 @@ A Claude Code sub-agent that generates comprehensive 12-month SEO plans based on
 
 ```bash
 # One-command install
-curl -fsSL https://raw.githubusercontent.com/[YOUR-USERNAME]/leadgear-seo-strategist/main/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/SMBeePay/leadgear-seo-strategist/main/install.sh | bash
 ```
 
 ## Manual Install
 
 ```bash
 # Clone the repository
-git clone https://github.com/[YOUR-USERNAME]/leadgear-seo-strategist.git
+git clone https://github.com/SMBeePay/leadgear-seo-strategist.git
 cd leadgear-seo-strategist
 
 # Run the installer
