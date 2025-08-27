@@ -14,7 +14,7 @@ NC='\033[0m' # No Color
 # Configuration
 INSTALL_DIR="$HOME/.leadgear-seo"
 BIN_NAME="seo-plan"
-REPO_URL="https://raw.githubusercontent.com/[YOUR-USERNAME]/leadgear-seo-strategist/main"
+REPO_URL="https://raw.githubusercontent.com/SMBeepay/leadgear-seo-strategist/main"
 
 print_header() {
     echo -e "${BLUE}"
